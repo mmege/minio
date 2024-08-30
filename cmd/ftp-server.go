@@ -78,9 +78,10 @@ func startFTPServer(args []string) {
 	)
 
 	var err error
+	disableTLS := false
 	for _, arg := range args {
 		tokens := strings.SplitN(arg, "=", 2)
-		if len(tokens) != 2 {
+		if tokens[0] != "disable-tls" && len(tokens) != 2 {
 			logger.Fatal(fmt.Errorf("invalid arguments passed to --ftp=%s", arg), "unable to start FTP server")
 		}
 		switch tokens[0] {
@@ -103,6 +104,8 @@ func startFTPServer(args []string) {
 			tlsPrivateKey = tokens[1]
 		case "tls-public-cert":
 			tlsPublicCert = tokens[1]
+		case "disable-tls":
+			disableTLS = true
 		}
 	}
 
@@ -127,7 +130,7 @@ func startFTPServer(args []string) {
 		tlsPublicCert = getPublicCertFile()
 	}
 
-	tls := tlsPrivateKey != "" && tlsPublicCert != ""
+	tls := tlsPrivateKey != "" && tlsPublicCert != "" && !disableTLS
 
 	name := "MinIO FTP Server"
 	if tls {

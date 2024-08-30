@@ -166,6 +166,11 @@ Unlike SFTP server, FTP server is insecure by default. To operate under TLS mode
 > NOTE: if MinIO distributed setup is already configured to run under TLS, FTP will automatically use the relevant
 > certs from the server certificate chain, this is mainly to add simplicity of setup. However if you wish to terminate
 > TLS certificates via a different domain for your FTP servers you may choose the above command line options.
+>
+> For some specific cases (e.g. map network drive on Windows), it is possible to force disable TLS with
+> ```
+>--ftp="disable-tls"
+> ```
 
 
 ### Custom Algorithms (SFTP)
